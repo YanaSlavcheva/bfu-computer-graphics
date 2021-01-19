@@ -17,33 +17,56 @@
                 <a href="index.html">Начална страница</a>
             </header>
             <main>
-                <input class="form-control" type="number" id="r" />
-                <input class="form-control" type="number" id="g" />
-                <input class="form-control" type="number" id="b" />
-                <input class="btn btn-outline-primary" type="button" id="submit" value="Изчисли CMYK по RGB" />
-                <div>
-                    <p id="c"></p>
-                    <p id="m"></p>
-                    <p id="y"></p>
-                    <p id="k"></p>
-                </div>
+                <section>
+                    <article class="col-md-6">
+                        <input class="form-control" type="number" id="r" />
+                        <input class="form-control" type="number" id="g" />
+                        <input class="form-control" type="number" id="b" />
+                        <input class="btn btn-outline-primary" type="button" id="submit" value="Изчисли CMYK по RGB" /> 
+                        <div id="cmyk-result">
+                            <p id="c"></p>
+                            <p id="m"></p>
+                            <p id="y"></p>
+                            <p id="k"></p>
+                        </div>
+                    </article>
+                    <article class="col-md-6"></article>
+                </section>
+                
             </div>
         </main>
         <script>
             document.getElementById('submit').addEventListener('click', function() {
-                const r = document.getElementById('r').value / 255;
-                const g = document.getElementById('g').value / 255;
-                const b = document.getElementById('b').value / 255;
+                const r = document.getElementById('r').value;
+                const g = document.getElementById('g').value;
+                const b = document.getElementById('b').value;
 
-                const k = 1 - Math.max(r, g, b);
-                const c = (1 - r - k) / (1 - k);
-                const m = (1 - g - k) / (1 - k);
-                const y = (1 - b - k) / (1 - k);
-
-                document.getElementById('c').innerHTML = c.toFixed(2) * 100 + "%";
-                document.getElementById('m').innerHTML = m.toFixed(2) * 100 + "%";
-                document.getElementById('y').innerHTML = y.toFixed(2) * 100 + "%";
-                document.getElementById('k').innerHTML = k.toFixed(2) * 100 + "%";
+                if (isNumberValidRgb(r) && isNumberValidRgb(g) && isNumberValidRgb(b)){
+                    const rProcessed = r / 255;
+                    const gProcessed = g / 255;
+                    const bProcessed = b / 255;
+                
+                    const k = 1 - Math.max(rProcessed, gProcessed, bProcessed);
+                    let c = 0;
+                    let m = 0;
+                    let y = 0;
+                    if (k != 1) {
+                        c = (1 - rProcessed - k) / (1 - k);
+                        m = (1 - gProcessed - k) / (1 - k);
+                        y = (1 - bProcessed - k) / (1 - k);
+                    }
+                    
+                    document.getElementById('c').innerHTML = c.toFixed(2) * 100 + '%';
+                    document.getElementById('m').innerHTML = m.toFixed(2) * 100 + '%';
+                    document.getElementById('y').innerHTML = y.toFixed(2) * 100 + '%';
+                    document.getElementById('k').innerHTML = k.toFixed(2) * 100 + '%';
+                } else {
+                    alert('Моля, въведете валидни стойности за R, G и B (между 0 и 255 включително)');
+                    location.reload();
+                }
+                function isNumberValidRgb(number) {
+                    return (number >= 0 && number <= 255) ? true : false;
+                }
             })
         </script>
     </body>
