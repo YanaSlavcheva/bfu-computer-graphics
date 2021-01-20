@@ -26,17 +26,35 @@
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
 
+            const x0 = 100;
+            const y0 = 100;
+            const x1 = 500;
+            const y1 = 100;
+            const x2 = 500;
+            const y2 = 500;
+            const x3 = 100;
+            const y3 = 500;
+
             // draw the square
             ctx.beginPath();
-            ctx.moveTo(100, 100);
-            ctx.lineTo(500, 100);
-            ctx.lineTo(500, 500);
-            ctx.lineTo(100, 500);
-            ctx.lineTo(100, 100);
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x0, y0);
             ctx.stroke();
 
             // draw the inner lines
-            
+            // TODO: get n from input
+            let n = 4;
+            const step = 400 / n;
+
+            for (i = 0 ; i < n ; i++ ) {
+                ctx.beginPath();
+                ctx.moveTo((x0 + i*step), y0);
+                ctx.lineTo(x1, (y1 + (i + 1)*step));
+                ctx.stroke();
+            }
         </script>
     </body>
 </html>
