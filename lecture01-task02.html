@@ -65,7 +65,21 @@
                 ctx.stroke();
             }
 
+            // draw lower side
+            for (i = 0 ; i < n ; i++ ) {
+                ctx.beginPath();
+                ctx.moveTo((x2 - i*step), y2);
+                ctx.lineTo(x3, (y3 - (i + 1)*step));
+                ctx.stroke();
+            }
 
+            // draw left side
+            for (i = 0 ; i < n ; i++ ) {
+                ctx.beginPath();
+                ctx.moveTo(x3, (y3 - i*step));
+                ctx.lineTo((x0 + (i + 1)*step), y0);
+                ctx.stroke();
+            }
         </script>
     </body>
 </html>
