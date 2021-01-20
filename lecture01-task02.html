@@ -49,12 +49,23 @@
             let n = 4;
             const step = 400 / n;
 
+            // draw upper side
             for (i = 0 ; i < n ; i++ ) {
                 ctx.beginPath();
                 ctx.moveTo((x0 + i*step), y0);
                 ctx.lineTo(x1, (y1 + (i + 1)*step));
                 ctx.stroke();
             }
+
+            // draw right side
+            for (i = 0 ; i < n ; i++ ) {
+                ctx.beginPath();
+                ctx.moveTo(x1, (y1 + i*step));
+                ctx.lineTo((x2 - (i + 1)*step), y2);
+                ctx.stroke();
+            }
+
+
         </script>
     </body>
 </html>
