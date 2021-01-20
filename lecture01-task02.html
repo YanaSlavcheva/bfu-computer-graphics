@@ -17,69 +17,77 @@
                 <a href="index.html">Към началната страница</a>
             </header>
             <section class="text-center">
+                <div class="form-group">
+                    <label for="n">n</label>
+                    <input class="form-control" type="number" id="n" />
+                </div>
+                <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай" />
                 <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
-                    <!-- TODO: get n from input -->
                 </canvas>
             </section>
         </main>
         <script>
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
+            document.getElementById('draw').addEventListener('click', function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
 
-            const x0 = 100;
-            const y0 = 100;
-            const x1 = 500;
-            const y1 = 100;
-            const x2 = 500;
-            const y2 = 500;
-            const x3 = 100;
-            const y3 = 500;
+                ctx.clearRect(0, 0, 600, 600);
 
-            // draw the square
-            ctx.beginPath();
-            ctx.moveTo(x0, y0);
-            ctx.lineTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.lineTo(x3, y3);
-            ctx.lineTo(x0, y0);
-            ctx.stroke();
+                const x0 = 100; // top left
+                const y0 = 100;
+                const x1 = 500; // top right
+                const y1 = 100;
+                const x2 = 500; // botoom right
+                const y2 = 500;
+                const x3 = 100; // bottom left
+                const y3 = 500;
 
-            // draw the inner lines
-            // TODO: get n from input
-            let n = 4;
-            const step = 400 / n;
-
-            // draw upper side
-            for (i = 0 ; i < n ; i++ ) {
+                // draw the square
                 ctx.beginPath();
-                ctx.moveTo((x0 + i*step), y0);
-                ctx.lineTo(x1, (y1 + (i + 1)*step));
+                ctx.moveTo(x0, y0);
+                ctx.lineTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.lineTo(x0, y0);
                 ctx.stroke();
-            }
 
-            // draw right side
-            for (i = 0 ; i < n ; i++ ) {
-                ctx.beginPath();
-                ctx.moveTo(x1, (y1 + i*step));
-                ctx.lineTo((x2 - (i + 1)*step), y2);
-                ctx.stroke();
-            }
+                // draw the inner lines
+                // TODO: get n from input
+                const n = document.getElementById('n').value;
+                const step = 400 / n;
 
-            // draw lower side
-            for (i = 0 ; i < n ; i++ ) {
-                ctx.beginPath();
-                ctx.moveTo((x2 - i*step), y2);
-                ctx.lineTo(x3, (y3 - (i + 1)*step));
-                ctx.stroke();
-            }
+                // draw upper side
+                for (i = 0 ; i < n ; i++ ) {
+                    ctx.beginPath();
+                    ctx.moveTo((x0 + i*step), y0);
+                    ctx.lineTo(x1, (y1 + (i + 1)*step));
+                    ctx.stroke();
+                }
 
-            // draw left side
-            for (i = 0 ; i < n ; i++ ) {
-                ctx.beginPath();
-                ctx.moveTo(x3, (y3 - i*step));
-                ctx.lineTo((x0 + (i + 1)*step), y0);
-                ctx.stroke();
-            }
+                // draw right side
+                for (i = 0 ; i < n ; i++ ) {
+                    ctx.beginPath();
+                    ctx.moveTo(x1, (y1 + i*step));
+                    ctx.lineTo((x2 - (i + 1)*step), y2);
+                    ctx.stroke();
+                }
+
+                // draw lower side
+                for (i = 0 ; i < n ; i++ ) {
+                    ctx.beginPath();
+                    ctx.moveTo((x2 - i*step), y2);
+                    ctx.lineTo(x3, (y3 - (i + 1)*step));
+                    ctx.stroke();
+                }
+
+                // draw left side
+                for (i = 0 ; i < n ; i++ ) {
+                    ctx.beginPath();
+                    ctx.moveTo(x3, (y3 - i*step));
+                    ctx.lineTo((x0 + (i + 1)*step), y0);
+                    ctx.stroke();
+                }
+            })
         </script>
     </body>
 </html>
