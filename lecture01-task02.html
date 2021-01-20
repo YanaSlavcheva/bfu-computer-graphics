@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-        <title>Тема 1 / Задача 1</title>
+        <title>Тема 1 / Задача 2</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -14,14 +14,18 @@
         <main class="container">
             <header class="col-md-12 text-center">
                 <h1>Тема 1 / Задача 2</h1>
+                <h2>Създаване на псевдотримерно изображение</h2>
                 <a href="index.html">Към началната страница</a>
             </header>
             <section class="text-center">
                 <div class="form-group">
-                    <label for="n">n</label>
+                    <label for="n">Въведете брой равни отсечки, на които да се раздели страната на квадрата - n</label>
                     <input class="form-control" type="number" id="n" />
+                    <p>Ако не въведете цяло число, то автоматично ще бъде закръглено надолу до цяло</p>
                 </div>
-                <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай" />
+                <div class="form-group">
+                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай" />
+                </div>
                 <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
                 </canvas>
             </section>
@@ -53,39 +57,45 @@
 
                 // draw the inner lines
                 // TODO: get n from input
-                const n = document.getElementById('n').value;
-                const step = 400 / n;
+                const n = parseInt(document.getElementById('n').value);
+                document.getElementById('n').value = n;
+                if (n > 0) {
+                    const step = 400 / n;
 
-                // draw upper side
-                for (i = 0 ; i < n ; i++ ) {
-                    ctx.beginPath();
-                    ctx.moveTo((x0 + i*step), y0);
-                    ctx.lineTo(x1, (y1 + (i + 1)*step));
-                    ctx.stroke();
-                }
+                    // draw upper side
+                    for (i = 0 ; i < n ; i++ ) {
+                        ctx.beginPath();
+                        ctx.moveTo((x0 + i*step), y0);
+                        ctx.lineTo(x1, (y1 + (i + 1)*step));
+                        ctx.stroke();
+                    }
 
-                // draw right side
-                for (i = 0 ; i < n ; i++ ) {
-                    ctx.beginPath();
-                    ctx.moveTo(x1, (y1 + i*step));
-                    ctx.lineTo((x2 - (i + 1)*step), y2);
-                    ctx.stroke();
-                }
+                    // draw right side
+                    for (i = 0 ; i < n ; i++ ) {
+                        ctx.beginPath();
+                        ctx.moveTo(x1, (y1 + i*step));
+                        ctx.lineTo((x2 - (i + 1)*step), y2);
+                        ctx.stroke();
+                    }
 
-                // draw lower side
-                for (i = 0 ; i < n ; i++ ) {
-                    ctx.beginPath();
-                    ctx.moveTo((x2 - i*step), y2);
-                    ctx.lineTo(x3, (y3 - (i + 1)*step));
-                    ctx.stroke();
-                }
+                    // draw lower side
+                    for (i = 0 ; i < n ; i++ ) {
+                        ctx.beginPath();
+                        ctx.moveTo((x2 - i*step), y2);
+                        ctx.lineTo(x3, (y3 - (i + 1)*step));
+                        ctx.stroke();
+                    }
 
-                // draw left side
-                for (i = 0 ; i < n ; i++ ) {
-                    ctx.beginPath();
-                    ctx.moveTo(x3, (y3 - i*step));
-                    ctx.lineTo((x0 + (i + 1)*step), y0);
-                    ctx.stroke();
+                    // draw left side
+                    for (i = 0 ; i < n ; i++ ) {
+                        ctx.beginPath();
+                        ctx.moveTo(x3, (y3 - i*step));
+                        ctx.lineTo((x0 + (i + 1)*step), y0);
+                        ctx.stroke();
+                    }
+                } else {
+                    alert('Моля, въведете валидна стойност за n (положително цяло число)');
+                    location.reload();
                 }
             })
         </script>
