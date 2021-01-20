@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-        <title>Компютърна графика - Задачи</title>
+        <title>Тема 1 / Задача 1</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -13,26 +13,30 @@
     <body>
         <main class="container">
             <header class="col-md-12 text-center">
-                <h1>Компютърна графика</h1>
-                <h2>Задачи</h2>
+                <h1>Тема 1 / Задача 2</h1>
+                <a href="index.html">Към началната страница</a>
             </header>
-            <ul>
-                <li>
-                    <a href="lecture01-task01.html">Тема 1 Задача 1</a>
-                </li>
-                <li>
-                    <a href="lecture01-task02.html">Тема 1 Задача 2</a>
-                </li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+            <section class="text-center">
+                <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
+                    <!-- TODO: get n from input -->
+                </canvas>
+            </section>
         </main>
+        <script>
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // draw the square
+            ctx.beginPath();
+            ctx.moveTo(100, 100);
+            ctx.lineTo(500, 100);
+            ctx.lineTo(500, 500);
+            ctx.lineTo(100, 500);
+            ctx.lineTo(100, 100);
+            ctx.stroke();
+
+            // draw the inner lines
+            
+        </script>
     </body>
 </html>
