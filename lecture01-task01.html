@@ -71,6 +71,10 @@
                 const m = document.getElementById('m').value / 100;
                 const y = document.getElementById('y').value / 100;
                 const k = document.getElementById('k').value / 100;
+                manageZeroValues(c, 'c');
+                manageZeroValues(m, 'm');
+                manageZeroValues(y, 'y');
+                manageZeroValues(k, 'k');
 
                 if (isNumberValidCmyk(c) && isNumberValidCmyk(m) && isNumberValidCmyk(y) && isNumberValidCmyk(k)) {
                     const rResult = (255 * (1 - c) * (1 - k)).toFixed(0);
@@ -96,6 +100,9 @@
                 const r = document.getElementById('r').value;
                 const g = document.getElementById('g').value;
                 const b = document.getElementById('b').value;
+                manageZeroValues(r, 'r');
+                manageZeroValues(g, 'g');
+                manageZeroValues(b, 'b');
 
                 if (isNumberValidRgb(r) && isNumberValidRgb(g) && isNumberValidRgb(b)){
                     const rProcessed = r / 255;
@@ -124,6 +131,12 @@
                     return (number >= 0 && number <= 255) ? true : false;
                 }
             });
+
+            function manageZeroValues(inputValue, inputId) {
+                if (inputValue == 0) {
+                    document.getElementById(inputId).value = 0;
+                }
+            }
         </script>
     </body>
 </html>
