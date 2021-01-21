@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+        <title>Тема 4 / Задача 3</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <main class="container">
+            <header class="col-md-12 text-center">
+                <h1>Тема 4 / Задача 3</h1>
+                <h2>Ротация на отсечка</h2>
+                <a href="index.html">Към началната страница</a>
+            </header>
+            <section class="text-center row">
+                <div class="form-group col-md-3">
+                    <label for="x0">Въведете x0 на началото на отсечката</label>
+                    <input class="form-control" type="number" id="x0" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="y0">Въведете y0 на началото на отсечката</label>
+                    <input class="form-control" type="number" id="y0" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="x1">Въведете x1 на края на отсечката</label>
+                    <input class="form-control" type="number" id="x1" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="y1">Въведете y1 на края на отсечката</label>
+                    <input class="form-control" type="number" id="y1" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="a">Въведете ълъла на ротация a</label>
+                    <input class="form-control" type="number" id="a" />
+                </div>
+                <p class="col-md-12">Координатите трябва да са между -300 и 300 за x и y. Ъгълът на ротация а може да е между -360 и 360 градуса.</p>
+                <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
+                <div class="form-group col-md-12">
+                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай отсечките" />
+                </div>
+                <div class="col-md-12 text-center">
+                    <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
+                    </canvas>
+                </div>
+            </section>
+        </main>
+        <script>
+            drawCoordinateSystem();
+
+            function drawCoordinateSystem(){
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                ctx.beginPath();
+                ctx.moveTo(300, 0);
+                ctx.lineTo(300, 600);
+                ctx.moveTo(0, 300);
+                ctx.lineTo(600, 300);
+                ctx.fillStyle = "black";
+                ctx.stroke();
+
+                ctx.font = "15px Arial";
+                ctx.fillText("0", 310, 290);
+                ctx.fillText("+x", 580, 290);
+                ctx.fillText("+y", 310, 15);
+            }
+            
+            document.getElementById('draw').addEventListener('click', function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                ctx.clearRect(0, 0, 600, 600);
+                drawCoordinateSystem();
+
+                const x0 = parseInt(document.getElementById('x0').value);
+                const y0 = parseInt(document.getElementById('y0').value);
+                const x1 = parseInt(document.getElementById('x1').value);
+                const y1 = parseInt(document.getElementById('y1').value);
+                const aDegrees = parseInt(document.getElementById('a').value);
+
+                
+
+                if (isCoordinateValid(x0) &&
+                    isCoordinateValid(y0) &&
+                    isCoordinateValid(x1) &&
+                    isCoordinateValid(y1) &&
+                    isAngleValid(aDegrees)) {
+                        bresenDrawLineColor(x0, y0, x1, y1, "black");
+
+                        const aRadians = aDegrees * Math.PI / 180;
+                        bresenDrawLineColor(calculateXRotated(x0, y0, aRadians),
+                                            calculateYRotated(x0, y0, aRadians),
+                                            calculateXRotated(x1, y1, aRadians),
+                                            calculateYRotated(x1, y1, aRadians),
+                                            "red");
+                } else {
+                    alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително) и за ъгъла a между -360 и 360 градуса');
+                }
+                
+                function bresenDrawLineColor(x0, y0, x1, y1, color) {
+                    if (x0 == x1 && y0 == y1) {
+                        drawPixelColor(x0, y0, color);
+                        return;
+                    }
+
+                    var dx = x1 - x0;
+                    var sx = (dx < 0) ? -1 : 1;
+                    var dy = y1 - y0;
+                    var sy = (dy < 0) ? -1 : 1;
+
+                    if (Math.abs(dy) < Math.abs(dx)) {
+                        var m = dy / dx;
+                        var b = y0 - m * x0;
+
+                        while (x0 != x1) {
+                            drawPixelColor(x0, parseInt(Math.round(m * x0 + b)), color);
+                            x0 += sx;
+                        }
+                    } else {
+                        var m = dx / dy;
+                        var b = x0 - m * y0;
+
+                        while (y0 != y1) {
+                            drawPixelColor(parseInt(Math.round(m * y0 + b)), y0, color);
+                            y0 += sy;
+                        }
+                    }
+
+                    drawPixelColor(x1, y1, color);
+                }
+
+                function drawPixelColor(x, y, color) {
+                    const coordinateCorrection = 300;
+                    ctx.beginPath();
+                    const xCorrected = x + coordinateCorrection;
+                    const yCorrected = y * (-1) + coordinateCorrection;
+                    ctx.rect(xCorrected, yCorrected, 1, 1);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
+
+                function isCoordinateValid(coordinate) {
+                    return (coordinate >= -300 && coordinate <= 300) ? true : false;
+                }
+
+                function isAngleValid(angle) {
+                    return (angle >= -360 && angle <= 360) ? true : false;
+                }
+
+                function calculateXRotated (x, y, a) {
+                    const rotatedX = (x * Math.cos(a) - y * Math.sin(a)).toFixed(0);
+                    return parseInt(rotatedX);
+                }
+
+                function calculateYRotated (x, y, a) {
+                    const rotatedY = (x * Math.sin(a) + y * Math.cos(a)).toFixed(0);
+                    return parseInt(rotatedY);
+                }
+            })
+        </script>
+    </body>
+</html>
