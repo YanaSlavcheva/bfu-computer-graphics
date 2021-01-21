@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+        <title>Тема 4 / Задача 2</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <main class="container">
+            <header class="col-md-12 text-center">
+                <h1>Тема 4 / Задача 2</h1>
+                <h2>Транслация на окръжност</h2>
+                <a href="index.html">Към началната страница</a>
+            </header>
+            <section class="text-center row">
+                <div class="form-group col-md-4">
+                    <label for="r">Въведете r на окръжността</label>
+                    <input class="form-control" type="number" id="r" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="x0">Въведете x0 на центъра</label>
+                    <input class="form-control" type="number" id="x0" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="y0">Въведете y0 на центъра</label>
+                    <input class="form-control" type="number" id="y0" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="m">Въведете M на вектора на транслация</label>
+                    <input class="form-control" type="number" id="m" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="n">Въведете N на вектора на транслация</label>
+                    <input class="form-control" type="number" id="n" />
+                </div>
+                <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x0 и y0, така и за M и N. Радиусът трябва да е между 0 и 300.</p>
+                <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
+                <div class="form-group col-md-12">
+                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай окръжностите" />
+                </div>
+                <div class="col-md-12 text-center">
+                    <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
+                    </canvas>
+                </div>
+            </section>
+        </main>
+        <script>
+            drawCoordinateSystem();
+
+            function drawCoordinateSystem(){
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                ctx.beginPath();
+                ctx.moveTo(300, 0);
+                ctx.lineTo(300, 600);
+                ctx.moveTo(0, 300);
+                ctx.lineTo(600, 300);
+                ctx.fillStyle = "black";
+                ctx.stroke();
+
+                ctx.font = "15px Arial";
+                ctx.fillText("0", 310, 290);
+                ctx.fillText("+x", 580, 290);
+                ctx.fillText("+y", 310, 15);
+            }
+            
+            document.getElementById('draw').addEventListener('click', function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                ctx.clearRect(0, 0, 600, 600);
+                drawCoordinateSystem();
+                
+                const r = parseInt(document.getElementById('r').value);
+                const x0 = parseInt(document.getElementById('x0').value);
+                const y0 = parseInt(document.getElementById('y0').value);
+                const m = parseInt(document.getElementById('m').value);
+                const n = parseInt(document.getElementById('n').value);
+
+                if (isRadiusValid(r) && isCoordinateValid(x0) && isCoordinateValid(y0)) {
+                    bresenDrawCircleColor(r, x0, y0, "black");
+                    bresenDrawCircleColor(r, x0 + m, y0 + n, "red");
+                } else {
+                    alert('Моля, въведете валидни стойности за x0, y0, M и N (между -300 и 300 включително) и за r (между 0 и 300)');
+                }
+                
+                function bresenDrawCircleColor(r, x0, y0, color) {
+                    let x = -r;
+                    let y = 0;
+                    let error = 2 - 2*r;
+
+                    do {
+                        drawPixelColor((x0 - x), (y0 + y), color);
+                        drawPixelColor((x0 - y), (y0 - x), color);
+                        drawPixelColor((x0 + x), (y0 - y), color);
+                        drawPixelColor((x0 + y), (y0 + x), color);
+
+                        r = error;
+                        if (r <= y) {
+                            error += ++y * 2 + 1;
+                        }
+
+                        if (r > x || error > y) {
+                            error += ++x * 2 + 1;
+                        }
+                    } while (x < 0);
+                }
+
+                function drawPixelColor(x, y, color) {
+                    const coordinateCorrection = 300;
+                    ctx.beginPath();
+                    const xCorrected = x + coordinateCorrection;
+                    const yCorrected = y * (-1) + coordinateCorrection;
+                    ctx.rect(xCorrected, yCorrected, 1, 1);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
+
+                function isCoordinateValid(coordinate) {
+                    return (coordinate >= -300 && coordinate <= 300) ? true : false;
+                }
+
+                function isRadiusValid(radius) {
+                    return (radius > 0 && radius <= 300) ? true : false;
+                }
+            })
+        </script>
+    </body>
+</html>
