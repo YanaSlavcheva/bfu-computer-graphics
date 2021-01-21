@@ -31,6 +31,7 @@
                     <input class="form-control" type="number" id="y0" />
                 </div>
                 <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x0, така и за y0</p>
+                <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
                 <div class="form-group col-md-12">
                     <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай окръжността" />
                 </div>
@@ -76,7 +77,6 @@
                     bresenDrawCircle(r, x0, y0);
                 } else {
                     alert('Моля, въведете валидни стойности за x0 и y0 (между -300 и 300 включително)');
-                    // location.reload();
                 }
                 
                 function bresenDrawCircle(r, x0, y0) {
@@ -106,7 +106,6 @@
                     ctx.beginPath();
                     const xCorrected = x + coordinateCorrection;
                     const yCorrected = y * (-1) + coordinateCorrection;
-                    console.log(yCorrected);
                     ctx.rect(xCorrected, yCorrected, 1, 1);
                     ctx.fillStyle = "red";
                     ctx.fill();
