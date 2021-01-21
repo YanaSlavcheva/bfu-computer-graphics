@@ -42,14 +42,14 @@
                 // TODO: get input from HTML
                 const x0 = 0;
                 const y0 = 0;
-                const x1 = 600;
-                const y1 = 40;
+                const x1 = -200;
+                const y1 = -300;
 
-                bresenDraw(x0, y0, x1, y1);
-                function bresenDraw(x0, y0, x1, y1) {
+                bresenDrawLine(x0, y0, x1, y1);
+                function bresenDrawLine(x0, y0, x1, y1) {
                     console.log("inside bresenham");
                     if (x0 == x1 && y0 == y1) {
-                        draw(x0, y0);
+                        drawPixel(x0, y0);
                         return;
                     }
 
@@ -67,7 +67,7 @@
                             // console.log('2 - x0 ' + x0);
                             // console.log('2 - b ' + b);
                             console.log('1 - ' + parseInt(Math.round(m * x0 + b)));
-                            draw (x0, parseInt(Math.round(m * x0 + b)));
+                            drawPixel (x0, parseInt(Math.round(m * x0 + b)));
                             x0 += sx;
                         }
                     } else {
@@ -75,20 +75,21 @@
                         var b = x0 - m * y0;
 
                         while (y0 != y1) {
-                            draw(parseInt(Math.round(m * y0 + b)), y0);
+                            drawPixel(parseInt(Math.round(m * y0 + b)), y0);
                             y0 += sy;
                         }
                     }
 
-                    draw(x1, y1);
+                    drawPixel(x1, y1);
                 }
 
-                function draw(x, y) {
+                function drawPixel(x, y) {
                     // console.log('inside draw ' + x + ',' + y);
-                        ctx.beginPath();
-                        ctx.rect(x, y, 1, 1);
-                        ctx.fillStyle = "red";
-                        ctx.fill();
+                    const coordinateCorrection = 300;
+                    ctx.beginPath();
+                    ctx.rect(x + coordinateCorrection, y + coordinateCorrection, 1, 1);
+                    ctx.fillStyle = "red";
+                    ctx.fill();
                 }
             })
         </script>
