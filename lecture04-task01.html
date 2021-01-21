@@ -42,10 +42,10 @@
                     <label for="n">Въведете N на вектора на транслация</label>
                     <input class="form-control" type="number" id="n" />
                 </div>
-                <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x и y, така и за M и N</p>
+                <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x и y, така и за M и N. Радиусът трябва да е между 0 и 300.</p>
                 <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
                 <div class="form-group col-md-12">
-                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай отсечката" />
+                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай отсечките" />
                 </div>
                 <div class="col-md-12 text-center">
                     <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
@@ -94,10 +94,10 @@
                     isCoordinateValid(y1) &&
                     isCoordinateValid(m) &&
                     isCoordinateValid(n)) {
-                        bresenDrawLineColor(x0, y0, x1, y1, "blue");
+                        bresenDrawLineColor(x0, y0, x1, y1, "black");
                         bresenDrawLineColor(x0 + m, y0 + n, x1 + m, y1 + n, "red");
                 } else {
-                    alert('Моля, въведете валидни стойности за x0, y0, x1, y1, m и n (между -300 и 300 включително)');
+                    alert('Моля, въведете валидни стойности за x0, y0, x1, y1, M и N (между -300 и 300 включително)');
                 }
                 
                 function bresenDrawLineColor(x0, y0, x1, y1, color) {
