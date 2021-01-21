@@ -56,6 +56,11 @@
                 ctx.lineTo(600, 300);
                 ctx.fillStyle = "black";
                 ctx.stroke();
+
+                ctx.font = "15px Arial";
+                ctx.fillText("0", 310, 290);
+                ctx.fillText("+x", 580, 290);
+                ctx.fillText("+y", 310, 15);
             }
             
             document.getElementById('draw').addEventListener('click', function() {
@@ -108,7 +113,10 @@
                 function drawPixel(x, y) {
                     const coordinateCorrection = 300;
                     ctx.beginPath();
-                    ctx.rect(x + coordinateCorrection, y + coordinateCorrection, 1, 1);
+                    const xCorrected = x + coordinateCorrection;
+                    const yCorrected = y * (-1) + coordinateCorrection;
+                    console.log(yCorrected);
+                    ctx.rect(xCorrected, yCorrected, 1, 1);
                     ctx.fillStyle = "red";
                     ctx.fill();
                 }
