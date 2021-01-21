@@ -81,11 +81,9 @@
                     bresenDrawLine(x0, y0, x1, y1);
                 } else {
                     alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително)');
-                    // location.reload();
                 }
                 
                 function bresenDrawLine(x0, y0, x1, y1) {
-                    console.log("inside bresenham");
                     if (x0 == x1 && y0 == y1) {
                         drawPixel(x0, y0);
                         return;
