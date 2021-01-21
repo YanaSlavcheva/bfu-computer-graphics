@@ -17,29 +17,31 @@
                 <h2>Изчертаване на линия с алгоритъма на Брезенхам</h2>
                 <a href="index.html">Към началната страница</a>
             </header>
-            <section class="text-center">
-                <p>Координатите трябва да са между -300 и 300 както за x, така и за y</p>
-                <div class="form-group">
+            <section class="text-center row">
+                <div class="form-group col-md-3">
                     <label for="x0">Въведете x0 на началото на отсечката</label>
                     <input class="form-control" type="number" id="x0" />
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label for="y0">Въведете y0 на началото на отсечката</label>
                     <input class="form-control" type="number" id="y0" />
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label for="x1">Въведете x1 на края на отсечката</label>
                     <input class="form-control" type="number" id="x1" />
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-3">
                     <label for="y1">Въведете y1 на края на отсечката</label>
                     <input class="form-control" type="number" id="y1" />
                 </div>
-                <div class="form-group">
+                <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x, така и за y</p>
+                <div class="form-group col-md-12">
                     <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай отсечката" />
                 </div>
-                <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
-                </canvas>
+                <div class="col-md-12 text-center">
+                    <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
+                    </canvas>
+                </div>
             </section>
         </main>
         <script>
@@ -75,7 +77,13 @@
                 const x1 = parseInt(document.getElementById('x1').value);
                 const y1 = parseInt(document.getElementById('y1').value);
 
-                bresenDrawLine(x0, y0, x1, y1);
+                if (isCoordinateValid(x0) && isCoordinateValid(y0) && isCoordinateValid(x1) &&isCoordinateValid(y1)) {
+                    bresenDrawLine(x0, y0, x1, y1);
+                } else {
+                    alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително)');
+                    location.reload();
+                }
+                
                 function bresenDrawLine(x0, y0, x1, y1) {
                     console.log("inside bresenham");
                     if (x0 == x1 && y0 == y1) {
@@ -119,6 +127,10 @@
                     ctx.rect(xCorrected, yCorrected, 1, 1);
                     ctx.fillStyle = "red";
                     ctx.fill();
+                }
+
+                function isCoordinateValid(coordinate) {
+                    return (coordinate >= -300 && coordinate <= 300) ? true : false;
                 }
             })
         </script>
