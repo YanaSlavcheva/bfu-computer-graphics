@@ -99,7 +99,6 @@
                         var b = y0 - m * x0;
 
                         while (x0 != x1) {
-                            console.log('1 - ' + parseInt(Math.round(m * x0 + b)));
                             drawPixel (x0, parseInt(Math.round(m * x0 + b)));
                             x0 += sx;
                         }
@@ -121,7 +120,6 @@
                     ctx.beginPath();
                     const xCorrected = x + coordinateCorrection;
                     const yCorrected = y * (-1) + coordinateCorrection;
-                    console.log(yCorrected);
                     ctx.rect(xCorrected, yCorrected, 1, 1);
                     ctx.fillStyle = "red";
                     ctx.fill();
