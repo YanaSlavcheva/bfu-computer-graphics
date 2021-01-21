@@ -73,10 +73,10 @@
                 const x0 = parseInt(document.getElementById('x0').value);
                 const y0 = parseInt(document.getElementById('y0').value);
 
-                if (isCoordinateValid(x0) && isCoordinateValid(y0)) {
+                if (isRadiusValid(r) && isCoordinateValid(x0) && isCoordinateValid(y0)) {
                     bresenDrawCircle(r, x0, y0);
                 } else {
-                    alert('Моля, въведете валидни стойности за x0 и y0 (между -300 и 300 включително)');
+                    alert('Моля, въведете валидни стойности за x0 и y0 (между -300 и 300 включително) и за r (между 0 и 300)');
                 }
                 
                 function bresenDrawCircle(r, x0, y0) {
@@ -113,6 +113,10 @@
 
                 function isCoordinateValid(coordinate) {
                     return (coordinate >= -300 && coordinate <= 300) ? true : false;
+                }
+
+                function isRadiusValid(radius) {
+                    return (radius > 0 && radius <= 300) ? true : false;
                 }
             })
         </script>
