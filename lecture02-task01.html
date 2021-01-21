@@ -18,13 +18,25 @@
                 <a href="index.html">Към началната страница</a>
             </header>
             <section class="text-center">
-                <!-- <div class="form-group">
-                    <label for="n">Въведете брой равни отсечки, на които да се раздели страната на квадрата - n</label>
-                    <input class="form-control" type="number" id="n" />
-                    <p>Ако не въведете цяло число, то автоматично ще бъде закръглено надолу до цяло</p>
-                </div> -->
+                <p>Координатите трябва да са между -300 и 300 както за x, така и за y</p>
                 <div class="form-group">
-                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай" />
+                    <label for="x0">Въведете x0 на началото на отсечката</label>
+                    <input class="form-control" type="number" id="x0" />
+                </div>
+                <div class="form-group">
+                    <label for="y0">Въведете y0 на началото на отсечката</label>
+                    <input class="form-control" type="number" id="y0" />
+                </div>
+                <div class="form-group">
+                    <label for="x1">Въведете x1 на края на отсечката</label>
+                    <input class="form-control" type="number" id="x1" />
+                </div>
+                <div class="form-group">
+                    <label for="y1">Въведете y1 на края на отсечката</label>
+                    <input class="form-control" type="number" id="y1" />
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-outline-primary" type="button" id="draw" value="Изчертай отсечката" />
                 </div>
                 <canvas id="canvas" width="600" height="600" style="border: 1px solid black;">
                 </canvas>
@@ -54,10 +66,10 @@
                 drawCoordinateSystem();
 
                 // TODO: get input from HTML
-                const x0 = 0;
-                const y0 = 0;
-                const x1 = -200;
-                const y1 = -300;
+                const x0 = parseInt(document.getElementById('x0').value);
+                const y0 = parseInt(document.getElementById('y0').value);
+                const x1 = parseInt(document.getElementById('x1').value);
+                const y1 = parseInt(document.getElementById('y1').value);
 
                 bresenDrawLine(x0, y0, x1, y1);
                 function bresenDrawLine(x0, y0, x1, y1) {
@@ -77,9 +89,6 @@
                         var b = y0 - m * x0;
 
                         while (x0 != x1) {
-                            // console.log('2 - m ' + m);
-                            // console.log('2 - x0 ' + x0);
-                            // console.log('2 - b ' + b);
                             console.log('1 - ' + parseInt(Math.round(m * x0 + b)));
                             drawPixel (x0, parseInt(Math.round(m * x0 + b)));
                             x0 += sx;
@@ -98,7 +107,6 @@
                 }
 
                 function drawPixel(x, y) {
-                    // console.log('inside draw ' + x + ',' + y);
                     const coordinateCorrection = 300;
                     ctx.beginPath();
                     ctx.rect(x + coordinateCorrection, y + coordinateCorrection, 1, 1);
