@@ -86,7 +86,7 @@
                     document.getElementById('b-result').innerHTML = 'B ->' + bResult;
                 } else {
                     alert('Моля, въведете валидни стойности за C, M, Y и K (между 0 и 100 включително)');
-                    location.reload();
+                    // location.reload();
                 }
 
                 
@@ -125,7 +125,7 @@
                     document.getElementById('k-result').innerHTML = 'K -> ' + k.toFixed(2) * 100 + '%';
                 } else {
                     alert('Моля, въведете валидни стойности за R, G и B (между 0 и 255 включително)');
-                    location.reload();
+                    // location.reload();
                 }
                 function isNumberValidRgb(number) {
                     return (number >= 0 && number <= 255) ? true : false;
