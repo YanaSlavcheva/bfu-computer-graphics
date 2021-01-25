@@ -46,66 +46,6 @@
             </section>
         </main>
         <script>
-            // реално изчертаваме в цикъл отсечки с дължина според шаблона
-            // вероятно ще викаме функцията за чертане на отсечки много пъти до достигане на критерий за изход
-
-            // Дадено:
-            // P1(x1, y2) - начални координати на отсечката -> (10, 20)
-            const x1 = 10;
-            const y1 = 20;
-
-            // P2(x2, y2) - крайни координати на отсечката -> (100, 200)
-            const x2 = 100;
-            const y2 = 200;
-
-            // (6, 3, 1, 3) - шаблон на изчертаване
-            const template = [6, 3, 1, 3];
-
-            // мащабиращ коефициент D  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
-            const a = Math.pow((x2 - x1), 2);
-            const b = Math.pow((y2 - y1), 0.5);
-            const D = Math.pow((a + b), 0.5);
-            
-            // Алгоритъм според лекциите
-            // 1 - set k values
-            let k1 = 0;
-            let k2 = template[1]/D
-
-            // 2 - Пресмятане на координатите на началната / Q1 / и крайната / Q2 / точка на поредния изчертаван щрих от шаблона
-            // Q1  =   ( 1 - k1 ) P1   +  k1 P2 
-            // Q1 -> xq1, yq1
-            function calculateQ1(coordinate1, coordinate2, k1) {
-                return (1 - k1) * coordinate1 + k1 * coordinate2;
-            }
-
-            let xq1 = calculateQ1(x1, x2, k1);
-            let yq1 = calculateQ1(y1, y2, k1);
-
-            // Q2  =   ( 1 – k2 ) P1   +  k2 P2
-            // Q2 -> xq2, yq2
-            function calculateQ2(coordinate1, coordinate2, k2) {
-                return (1 - k2) * coordinate1 + k2 * coordinate2;
-            }
-
-            let xq2 = calculateQ2(x1, x2, k2);
-            let yq2 = calculateQ2(y1, y2, k2);
-
-            // 3 - чертаем отсечка с координати (xq1, yq1) и (xq2, yq2)
-            // TODO: add draw function call
-
-            // 4 - преизчисляване на к1 и к2, за да получим следващите Q1 и Q2, за да изчертаем следващата отсечка
-            // където i е от 2 до N (дължината на template е 2N)
-            // k1  =   ( k2  + SH[2i – 2] ) / D 
-            // k2  =   ( k1  + SH[2i – 1] ) / D
-            for (i = 2; i <= template.length; i++) {
-                // TODO: check for break loop parameters
-
-                // calculate k1 & k2
-                // calculate xq1, xq2, yq1, yq2
-                // draw line
-            }
-
-
             drawCoordinateSystem();
 
             function drawCoordinateSystem(){
@@ -133,6 +73,96 @@
                 ctx.clearRect(0, 0, 600, 600);
                 drawCoordinateSystem();
 
+
+
+
+                function test () {
+                    // TODO: wrap in function and call at the right place
+                    // реално изчертаваме в цикъл отсечки с дължина според шаблона
+                    // вероятно ще викаме функцията за чертане на отсечки много пъти до достигане на критерий за изход
+
+                    // Дадено:
+                    // P1(x1, y2) - начални координати на отсечката -> (10, 20)
+                    const x1 = 10;
+                    const y1 = 20;
+
+                    // P2(x2, y2) - крайни координати на отсечката -> (100, 200)
+                    const x2 = 200;
+                    const y2 = 300;
+
+                    // (6, 3, 1, 3) - шаблон на изчертаване
+                    const template = [60, 30, 10, 30];
+
+                    // мащабиращ коефициент D  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
+                    const a = Math.pow((x2 - x1), 2);
+                    const b = Math.pow((y2 - y1), 0.5);
+                    const D = Math.pow((a + b), 0.5);
+                    
+                    // Алгоритъм според лекциите
+                    // 1 - set k values
+                    let k1 = 0;
+                    let k2 = template[1]/D
+
+                    // 2 - Пресмятане на координатите на началната / Q1 / и крайната / Q2 / точка на поредния изчертаван щрих от шаблона
+                    // Q1  =   ( 1 - k1 ) P1   +  k1 P2 
+                    // Q1 -> xq1, yq1
+                    function calculateQ1(coordinate1, coordinate2, k1) {
+                        console.log('calculateQ1; coord1: ' + coordinate1 + ' coord2: ' + coordinate2 + ' k1: ' + k1);
+                        return (1 - k1) * coordinate1 + k1 * coordinate2;
+                    }
+
+                    let xq1 = calculateQ1(x1, x2, k1);
+                    let yq1 = calculateQ1(y1, y2, k1);
+
+                    // Q2  =   ( 1 – k2 ) P1   +  k2 P2
+                    // Q2 -> xq2, yq2
+                    function calculateQ2(coordinate1, coordinate2, k2) {
+                        console.log('calculateQ2; coord1: ' + coordinate1 + ' coord2: ' + coordinate2 + ' k2: ' + k2);
+                        return (1 - k2) * coordinate1 + k2 * coordinate2;
+                    }
+
+                    let xq2 = calculateQ2(x1, x2, k2);
+                    let yq2 = calculateQ2(y1, y2, k2);
+
+                    // 3 - чертаем отсечка с координати (xq1, yq1) и (xq2, yq2)
+                    // TODO: add draw function call
+                    bresenDrawLine(Math.round(xq1), Math.round(yq1), Math.round(xq2), Math.round(yq2));
+
+                    // 4 - преизчисляване на к1 и к2, за да получим следващите Q1 и Q2, за да изчертаем следващата отсечка
+                    // където i е от 2 до N (дължината на template е 2N)
+                    // k1  =   ( k2  + SH[2i – 2] ) / D 
+                    // k2  =   ( k1  + SH[2i – 1] ) / D
+                    for (let i = 2; i <= template.length / 2; i++) {
+                        console.log('inside the loop template length: ' + template.length);
+                        console.log('inside the loop i: ' + i);
+                        // TODO: check for break loop parameters
+
+                        // calculate k1 & k2
+                        let k1Current = (k2 + template[2 * i - 2]) / D;
+                        let k2Current = (k1 + template[2 * i - 1]) / D;
+
+                        // calculate xq1, xq2, yq1, yq2
+                        xq1 = calculateQ1(x1, x2, k1);
+                        yq1 = calculateQ1(y1, y2, k1);
+
+                        xq2 = calculateQ2(x1, x2, k2);
+                        yq2 = calculateQ2(y1, y2, k2);
+
+                        // draw line
+                        bresenDrawLine(Math.round(xq1), Math.round(yq1), Math.round(xq2), Math.round(yq2));
+
+                        // assign k1 and k2 the new values from current variables
+                        k1 = k1Current;
+                        k2 = k2Current;
+                    }                
+                }
+
+                test();
+
+
+
+
+
                 const x0 = parseInt(document.getElementById('x0').value);
                 const y0 = parseInt(document.getElementById('y0').value);
                 const x1 = parseInt(document.getElementById('x1').value);
@@ -145,6 +175,7 @@
                 }
                 
                 function bresenDrawLine(x0, y0, x1, y1) {
+                    console.log('inside draw line; x0: ' + x0 + ' y0: ' + y0 + ' x1: ' + x1 + ' y1: ' + y1);
                     if (x0 == x1 && y0 == y1) {
                         drawPixel(x0, y0);
                         return;
