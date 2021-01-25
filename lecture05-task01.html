@@ -84,19 +84,19 @@
 
                     // Дадено:
                     // P1(x1, y2) - начални координати на отсечката -> (10, 20)
-                    const x1 = 0;
-                    const y1 = 100;
+                    const x1start = 0;
+                    const y1start = 10;
 
                     // P2(x2, y2) - крайни координати на отсечката -> (100, 200)
-                    const x2 = 300;
-                    const y2 = 100;
+                    const x2end = 300;
+                    const y2end = 10;
 
                     // (6, 3, 1, 3) - шаблон на изчертаване
-                    const template = [30, 15, 5, 15, 5, 20];
+                    const template = [20, 10, 30, 40];
 
-                    // мащабиращ коефициент D  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
-                    const a = Math.pow((x2 - x1), 2);
-                    const b = Math.pow((y2 - y1), 0.5);
+                    // мащабиращ коефициент D (дължината на отсечката)  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
+                    const a = Math.pow((x2end - x1start), 2);
+                    const b = Math.pow((y2end - y1start), 0.5);
                     const D = Math.pow((a + b), 0.5);
                     
                     // Алгоритъм според лекциите
@@ -112,8 +112,8 @@
                         return (1 - k1) * coordinate1 + k1 * coordinate2;
                     }
 
-                    let xq1 = calculateQ1(x1, x2, k1);
-                    let yq1 = calculateQ1(y1, y2, k1);
+                    let xQ1 = calculateQ1(x1start, x2end, k1);
+                    let yQ1 = calculateQ1(y1start, y2end, k1);
 
                     // Q2  =   ( 1 – k2 ) P1   +  k2 P2
                     // Q2 -> xq2, yq2
@@ -122,61 +122,67 @@
                         return (1 - k2) * coordinate1 + k2 * coordinate2;
                     }
 
-                    let xq2 = calculateQ2(x1, x2, k2);
-                    let yq2 = calculateQ2(y1, y2, k2);
+                    let xQ2 = calculateQ2(x1start, x2end, k2);
+                    let yQ2 = calculateQ2(y1start, y2end, k2);
 
                     // 3 - чертаем отсечка с координати (xq1, yq1) и (xq2, yq2)
                     // TODO: add draw function call
-                    bresenDrawLine(Math.round(xq1), Math.round(yq1), Math.round(xq2), Math.round(yq2));
+                    bresenDrawLine(Math.round(xQ1), Math.round(yQ1), Math.round(xQ2), Math.round(yQ2));
 
                     // 4 - преизчисляване на к1 и к2, за да получим следващите Q1 и Q2, за да изчертаем следващата отсечка
                     // където i е от 2 до N (дължината на template е 2N)
                     // k1  =   ( k2  + SH[2i – 2] ) / D 
                     // k2  =   ( k1  + SH[2i – 1] ) / D
-                    for (let i = 2; i <= template.length - 1; i += 2) {
+                    for (let i = 2; i <= template.length / 2; i ++) {
                         // console.log('inside the loop template length: ' + template.length);
                         console.log('inside the loop i: ' + i);
                         console.log('k1: ' + k1);
                         console.log('k2: ' + k2);
+
+                        // TODO: id i is odd - do not draw
+                        // if i is even - draw
+
                         // TODO: check for break loop parameters
                         // Ако k1  > 1, полагаме k1  = 1  /Q1  ≡  P2/ и излизаме от цикъла
-                        if (k1 > 1) {
-                            k1 = 1;
-                            xq1 = x2;
-                            yq1 = y2;
-                            break;
-                        }
+                        // if (k1 > 1) {
+                        //     k1 = 1;
+                        //     xq1 = x2;
+                        //     yq1 = y2;
+                        //     break;
+                        // }
 
-                        // Ако k2  > 1, полагаме k2  = 1  /Q2  ≡  P1/ и излизаме от цикъла
-                        if (k2 > 1) {
-                            k2 = 1;
-                            xq2 = x1;
-                            yq2 = y1;
-                            break;
-                        }
+                        // // Ако k2  > 1, полагаме k2  = 1  /Q2  ≡  P1/ и излизаме от цикъла
+                        // if (k2 > 1) {
+                        //     k2 = 1;
+                        //     xq2 = x1;
+                        //     yq2 = y1;
+                        //     break;
+                        // }
 
                         // calculate k1 & k2
                         let k1Current = (k2 + template[2 * i - 2]) / D;
                         let k2Current = (k1 + template[2 * i - 1]) / D;
 
                         // calculate xq1, xq2, yq1, yq2
-                        let xq1Current = calculateQ1(x1, x2, k1Current);
-                        let yq1Current = calculateQ1(y1, y2, k1Current);
+                        let xQ1Current = calculateQ1(x1start, x2end, k1Current);
+                        let yQ1Current = calculateQ1(y1start, y2end, k1Current);
 
-                        let xq2Current = calculateQ2(x1, x2, k2Current);
-                        let yq2Current = calculateQ2(y1, y2, k2Current);
+                        let xQ2Current = calculateQ2(x1start, x2end, k2Current);
+                        let yQ2Current = calculateQ2(y1start, y2end, k2Current);
 
                         // draw line
-                        bresenDrawLine(Math.round(xq1Current), Math.round(yq1Current), Math.round(xq2Current), Math.round(yq2Current));
+                        if (i % 2 != 1) {
+                            bresenDrawLine(Math.round(xQ1Current), Math.round(yQ1Current), Math.round(xQ2Current), Math.round(yQ2Current));
+                        }
 
                         // assign k1 and k2 the new values from current variables
                         k1 = k1Current;
                         k2 = k2Current;
 
-                        xq1 = xq1Current;
-                        yq1 = yq1Current;
-                        xq2 = xq2Current;
-                        yq2 = yq2Current;
+                        // xQ1 = xQ1Current;
+                        // yQ1 = yQ1Current;
+                        // xQ2 = xQ2Current;
+                        // yQ2 = yQ2Current;
                     }                
                 }
 
