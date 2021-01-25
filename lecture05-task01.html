@@ -77,6 +77,7 @@
 
 
                 function test () {
+                    debugger;
                     // TODO: wrap in function and call at the right place
                     // реално изчертаваме в цикъл отсечки с дължина според шаблона
                     // вероятно ще викаме функцията за чертане на отсечки много пъти до достигане на критерий за изход
@@ -91,7 +92,7 @@
                     const y2 = 300;
 
                     // (6, 3, 1, 3) - шаблон на изчертаване
-                    const template = [60, 30, 10, 30];
+                    const template = [10, 30, 10, 30];
 
                     // мащабиращ коефициент D  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
                     const a = Math.pow((x2 - x1), 2);
@@ -135,6 +136,8 @@
                     for (let i = 2; i <= template.length / 2; i++) {
                         console.log('inside the loop template length: ' + template.length);
                         console.log('inside the loop i: ' + i);
+                        console.log('k1: ' + k1);
+                        console.log('k2: ' + k2);
                         // TODO: check for break loop parameters
 
                         // calculate k1 & k2
@@ -142,11 +145,11 @@
                         let k2Current = (k1 + template[2 * i - 1]) / D;
 
                         // calculate xq1, xq2, yq1, yq2
-                        xq1 = calculateQ1(x1, x2, k1);
-                        yq1 = calculateQ1(y1, y2, k1);
+                        xq1 = calculateQ1(x1, x2, k1Current);
+                        yq1 = calculateQ1(y1, y2, k1Current);
 
-                        xq2 = calculateQ2(x1, x2, k2);
-                        yq2 = calculateQ2(y1, y2, k2);
+                        xq2 = calculateQ2(x1, x2, k2Current);
+                        yq2 = calculateQ2(y1, y2, k2Current);
 
                         // draw line
                         bresenDrawLine(Math.round(xq1), Math.round(yq1), Math.round(xq2), Math.round(yq2));
