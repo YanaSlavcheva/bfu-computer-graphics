@@ -20,23 +20,23 @@
             <section class="text-center row">
                 <div class="form-group col-md-3">
                     <label for="x0">Въведете x0 на началото на отсечката</label>
-                    <input class="form-control" type="number" id="x0" />
+                    <input class="form-control" type="number" id="x0" value="0" />
                 </div>
                 <div class="form-group col-md-3">
                     <label for="y0">Въведете y0 на началото на отсечката</label>
-                    <input class="form-control" type="number" id="y0" />
+                    <input class="form-control" type="number" id="y0" value="10" />
                 </div>
                 <div class="form-group col-md-3">
                     <label for="x1">Въведете x1 на края на отсечката</label>
-                    <input class="form-control" type="number" id="x1" />
+                    <input class="form-control" type="number" id="x1" value="300" />
                 </div>
                 <div class="form-group col-md-3">
                     <label for="y1">Въведете y1 на края на отсечката</label>
-                    <input class="form-control" type="number" id="y1" />
+                    <input class="form-control" type="number" id="y1" value="100" />
                 </div>
                 <div class="form-group col-md-3">
                     <label for="template">Въведете шаблон на изчертаване (четен брой (до 10) цели положителни числа, разделени със запетая)</label>
-                    <input class="form-control" type="text" id="template" />
+                    <input class="form-control" type="text" id="template" value="20,10,30,40,20,10" />
                 </div>
                 <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x, така и за y</p>
                 <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
@@ -87,13 +87,9 @@
 
                 if (isCoordinateValid(x0) && isCoordinateValid(y0) && isCoordinateValid(x1) &&isCoordinateValid(y1)) {
                     if (isTemplateValid(template)) {
-                        // convert template input to array
                         const templateArray = template.split(',');
-                        debugger;
-                        console.log(templateArray);
 
                         drawLineByTemplate(x0, y0, x1, y1, templateArray);
-                        // drawLineByTemplate();
                     } else {
                         alert('Моля, въведете валиден шаблон - четен брой (до 10) цели положителни числа, отделени със запетая (на пример [20,10,30,40,20,10])');
                     }
@@ -102,19 +98,6 @@
                 }
 
                 function drawLineByTemplate (x1start, y1start, x2end, y2end, template) {
-                    // TODO: get coordinates from input
-                    // P1(x1, y2) - начални координати на отсечката
-                    // const x1start = 0;
-                    // const y1start = 10;
-
-                    // P2(x2, y2) - крайни координати на отсечката
-                    // const x2end = 300;
-                    // const y2end = 100;
-
-                    // TODO: get template from input
-                    // (6, 3, 1, 3) - шаблон на изчертаване
-                    // const template = [20, 10, 30, 40, 20, 10];
-
                     // мащабиращ коефициент D (дължината на отсечката)  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
                     const a = Math.pow((x2end - x1start), 2);
                     const b = Math.pow((y2end - y1start), 0.5);
@@ -184,8 +167,8 @@
                         bresenDrawLine(Math.round(xQ1Current), Math.round(yQ1Current), Math.round(xQ2Current), Math.round(yQ2Current));
 
                         // assign k1 and k2 the new values from current variables
-                        // k1 = k1Current;
-                        // k2 = k2Current;
+                        k1 = k1Current;
+                        k2 = k2Current;
                     }                
                 }
                 
@@ -249,6 +232,11 @@
                     // цифри и запетая
                     const templateRegex = /^[0-9,]*$/;
                     if (!(templateRegex.test(template))) {
+                        return false;
+                    }
+
+                    const templateArray = template.split(',');
+                    if (templateArray.length % 2 != 0) {
                         return false;
                     }
 
