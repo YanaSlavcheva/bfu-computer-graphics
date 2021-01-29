@@ -35,8 +35,8 @@
                     <input class="form-control" type="number" id="y1" />
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="template">Въведете шаблон на изчертаване (четен брой цели положителни числа, разделени със запетая)</label>
-                    <input class="form-control" type="number" id="template" />
+                    <label for="template">Въведете шаблон на изчертаване (четен брой (до 10) цели положителни числа, разделени със запетая)</label>
+                    <input class="form-control" type="text" id="template" />
                 </div>
                 <p class="col-md-12">Координатите трябва да са между -300 и 300 както за x, така и за y</p>
                 <p class="col-md-12">Canvas-ът е с размери 600 х 600 пиксела</p>
@@ -81,30 +81,39 @@
                 const y0 = parseInt(document.getElementById('y0').value);
                 const x1 = parseInt(document.getElementById('x1').value);
                 const y1 = parseInt(document.getElementById('y1').value);
+                const template = document.getElementById('template').value;
 
-                drawLineByTemplate();
+                // drawLineByTemplate();
 
                 if (isCoordinateValid(x0) && isCoordinateValid(y0) && isCoordinateValid(x1) &&isCoordinateValid(y1)) {
-                    // TODO: validate template
-                    // drawLineByTemplate(x0, y0, x1, y1, template);
-                    drawLineByTemplate();
+                    if (isTemplateValid(template)) {
+                        // convert template input to array
+                        const templateArray = template.split(',');
+                        debugger;
+                        console.log(templateArray);
+
+                        drawLineByTemplate(x0, y0, x1, y1, templateArray);
+                        // drawLineByTemplate();
+                    } else {
+                        alert('Моля, въведете валиден шаблон - четен брой (до 10) цели положителни числа, отделени със запетая (на пример [20,10,30,40,20,10])');
+                    }
                 } else {
                     alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително)');
                 }
 
-                function drawLineByTemplate () {
+                function drawLineByTemplate (x1start, y1start, x2end, y2end, template) {
                     // TODO: get coordinates from input
                     // P1(x1, y2) - начални координати на отсечката
-                    const x1start = 0;
-                    const y1start = 10;
+                    // const x1start = 0;
+                    // const y1start = 10;
 
                     // P2(x2, y2) - крайни координати на отсечката
-                    const x2end = 300;
-                    const y2end = 100;
+                    // const x2end = 300;
+                    // const y2end = 100;
 
                     // TODO: get template from input
                     // (6, 3, 1, 3) - шаблон на изчертаване
-                    const template = [20, 10, 30, 40, 20, 10];
+                    // const template = [20, 10, 30, 40, 20, 10];
 
                     // мащабиращ коефициент D (дължината на отсечката)  =  [ (X2  -  X1)2  +  (Y2  -  Y1)1/2 ]1/2
                     const a = Math.pow((x2end - x1start), 2);
@@ -114,7 +123,7 @@
                     // Алгоритъм според лекциите
                     // 1 - set k values
                     let k1 = 0;
-                    let k2 = template[0]/D
+                    let k2 = parseInt(template[0])/D
 
                     // 2 - Пресмятане на координатите на началната / Q1 / и крайната / Q2 / точка на поредния изчертаван щрих от шаблона
                     // Q1  =   ( 1 - k1 ) P1   +  k1 P2 
@@ -161,8 +170,8 @@
                         // }
 
                         // calculate k1 & k2
-                        let k1Current = (k2 + template[2 * i - 2]) / D;
-                        let k2Current = (k1 + template[2 * i - 1]) / D;
+                        let k1Current = (k2 + parseInt(template[2 * i - 2])) / D;
+                        let k2Current = (k1 + parseInt(template[2 * i - 1])) / D;
 
                         // calculate xq1, xq2, yq1, yq2
                         let xQ1Current = calculateQ1(x1start, x2end, k1Current);
@@ -224,6 +233,26 @@
 
                 function isCoordinateValid(coordinate) {
                     return (coordinate >= -300 && coordinate <= 300) ? true : false;
+                }
+
+                function isTemplateValid(template) {
+                    if (template.trim() == "")
+                    {
+                        return false;
+                    }
+                    
+                    // 10 двуцифрени + 9 запетаяи = 29 символа
+                    if (template.length < 1 || template.length > 29) {
+                        return false;
+                    }
+                    
+                    // цифри и запетая
+                    const templateRegex = /^[0-9,]*$/;
+                    if (!(templateRegex.test(template))) {
+                        return false;
+                    }
+
+                    return true;
                 }
             })
         </script>
