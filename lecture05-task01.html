@@ -77,6 +77,21 @@
                 ctx.clearRect(0, 0, 600, 600);
                 drawCoordinateSystem();
 
+                const x0 = parseInt(document.getElementById('x0').value);
+                const y0 = parseInt(document.getElementById('y0').value);
+                const x1 = parseInt(document.getElementById('x1').value);
+                const y1 = parseInt(document.getElementById('y1').value);
+
+                drawLineByTemplate();
+
+                if (isCoordinateValid(x0) && isCoordinateValid(y0) && isCoordinateValid(x1) &&isCoordinateValid(y1)) {
+                    // TODO: validate template
+                    // drawLineByTemplate(x0, y0, x1, y1, template);
+                    drawLineByTemplate();
+                } else {
+                    alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително)');
+                }
+
                 function drawLineByTemplate () {
                     // TODO: get coordinates from input
                     // P1(x1, y2) - начални координати на отсечката
@@ -85,7 +100,7 @@
 
                     // P2(x2, y2) - крайни координати на отсечката
                     const x2end = 300;
-                    const y2end = 10;
+                    const y2end = 100;
 
                     // TODO: get template from input
                     // (6, 3, 1, 3) - шаблон на изчертаване
@@ -128,10 +143,6 @@
                     // k1  =   ( k2  + SH[2i – 2] ) / D 
                     // k2  =   ( k1  + SH[2i – 1] ) / D
                     for (let i = 2; i <= template.length / 2; i++) {
-                        console.log('inside the loop i: ' + i);
-                        console.log('k1: ' + k1);
-                        console.log('k2: ' + k2);
-
                         // TODO: check for break loop parameters
                         // Ако k1  > 1, полагаме k1  = 1  /Q1  ≡  P2/ и излизаме от цикъла
                         // if (k1 > 1) {
@@ -167,18 +178,6 @@
                         // k1 = k1Current;
                         // k2 = k2Current;
                     }                
-                }
-
-                const x0 = parseInt(document.getElementById('x0').value);
-                const y0 = parseInt(document.getElementById('y0').value);
-                const x1 = parseInt(document.getElementById('x1').value);
-                const y1 = parseInt(document.getElementById('y1').value);
-
-                if (isCoordinateValid(x0) && isCoordinateValid(y0) && isCoordinateValid(x1) &&isCoordinateValid(y1)) {
-                    // TODO: validate template
-                    drawLineByTemplate(x0, y0, x1, y1, template);
-                } else {
-                    alert('Моля, въведете валидни стойности за x0, y0, x1 и y1 (между -300 и 300 включително)');
                 }
                 
                 function bresenDrawLine(x0, y0, x1, y1) {
